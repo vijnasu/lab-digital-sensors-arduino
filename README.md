@@ -1,25 +1,72 @@
 ## Read the Objectives
 
-To learn how to build stand alone IoT devices with Arduino 101*. Learn to use sensors and actuators to gather and respond to data. The devices built during this lab will be extended in later labs to send their data to the Intel® IoT Gateway and to the cloud
+To learn how to build stand alone IoT devices with UP Squared board*. Learn to use sensors and actuators to gather and respond to data. The devices built during this lab will be extended in later labs to send their data to the Intel® IoT Gateway and to the cloud
 
 By the end of this module, you should be able to:
 
-*   Connect Grove* IoT Commercial Developer Kit sensors and actuators to your Arduino 101*.
+*   Connect Grove* IoT Commercial Developer Kit sensors and actuators to your Up Squared.
 *   Use the C UPM libraries to control actuators and read data from sensors.
 
 ## Deploy Your First App to the Intel® IoT Gateway
 
 ### Create a LED blink project
+Go to (create-intel.arduino.cc) and log in to your account or create a new account.
+![](./images/arduino-create-main.png)
 
-In your home directory (/home/{user}) on your Intel® IoT Gateway create a **labs** directory. We will put all our labs program here.
+Click on My Devices to set up the UP Squared board.
+![](./images/arduino-create-new-device.png)
 
-Under lab directory create another directory and name it **sensors**
+Click on Set up a generic Intel® IoT Platform.
+![](./images/arduino-create-set-up-IoT.png)
+:Note the Set up UP2 Grove IoT Development Kit button is still in Development and is not reliable to connect to the Up Squared board.
 
-Similarly create **LEDBlink** directory under sensors and finally create file **blinky-LED.c** in it. We will write the LED blink program to it
+ Follow the instructions to set up the UP Squared board and click My device is ready.
+ ![](./images/arduino-create-device-ready.png)
+
+ The UP Squared was preloaded with UBlinux. Click on option 1 I have already installed the an OS on my device.
+ ![](./images/arduino-create-device-os.png)
+
+Click on option A I know my Intel IoT Platform IP ADDRESS.
+![](./images/arduino-create-device-ip.png)
+
+Enter the IP ADDRESS that is shown on the LCD screen and click NEXT.
+![](./images/arduino-create-device-ip-addr.png)
+
+Enter in the username "nuc-user" and password "root" for the UP Squared board and click DONE.
+![](./images/arduino-create-device-passwd.png)
+
+Connecting to device.
+![](./images/arduino-create-device-connecting.png)
+
+Enter a name for your device and click SAVE.
+![](./images/arduino-create-device-name.png)
+
+You have successfully connected the UP Squared board to Arduino-Create. Click on GO TO MY DEVICES.
+![](./images/arduino-create-device-done.png)
+
+Click on the squares in the upper left corner.
+![](./images/arduino-create-device-status.png)
+
+Click on Arduino Web Editor.
+![](./images/arduino-create-editor.png)
+
+Set up the LED for the Grove Shield.
+Find the LED module and plug in an LED. Make sure that the cathode is plugged into the negative (-) socket. You can tell the cathode of an LED by the flat side of the led case, or by the larger “anvil” inside the LED. Refer to the diagram below:
+![](./images/Grove-LED.jpg)
+
+Once the LED is in the socket plug in the module into the D4 socket on the sensor shield:
+
+ Click on drop down menu on the sketch_monthDaya and select Rename Sketch.*
+![](./images/arduino-create-editor-sketch.png)
+
+ Rename the sketch to **blinky-LED** and click OK. Now we will write the LED blink program to it.
+![](./images/arduino-create-editor-sketch-rename.png)
 
 ### Write LED blink program
+Delete the void setup() and void loop() functions in the sketch to create a blank sketch. Select the up2 via cloud board under -- Select Board or Port --
+![](./images/arduino-create-editor-empty.png)
 
-Update **blinky-LED.c** with following changes
+Update **blinky-LED** with following changes
 
 1.  Include the following C headers in your program
 
@@ -33,10 +80,10 @@ Update **blinky-LED.c** with following changes
     #include "mraa.h"
     ```
 
-2.  Create the default LED GPIO pin macro. Here the pin value is 13 and offset value of 512\. This offset is required since we use Firmata to connect Arduino 101* with Intel® IoT Gateway which needs this conversion for all the I/O pins
+2.  Create the default LED GPIO pin macro. Here the pin value is 13\.
 
     ``` c
-    #define DEFAULT_IOPIN 525 //LED GPIO pin 13 + offset of 512
+    #define DEFAULT_IOPIN 13 //LED GPIO pin 13
     ```
 
 3.  Write the signal handler function to handle termination of the program which will continuously toggle the LED
@@ -66,7 +113,7 @@ Update **blinky-LED.c** with following changes
 
     #include "mraa.h"
 
-    #define DEFAULT_IOPIN 525
+    #define DEFAULT_IOPIN 13
 
     int running = 0;
     static int iopin;
@@ -80,16 +127,10 @@ Update **blinky-LED.c** with following changes
         }
     }
 
-    int main(int argc, char** argv)
+    int main(void)
     {
         mraa_result_t r = MRAA_SUCCESS;
         iopin = DEFAULT_IOPIN;
-
-        if (argc < 2) {
-            printf("Provide an int arg if you want to flash on something other than %d\n", DEFAULT_IOPIN);
-        } else {
-            iopin = strtol(argv[1], NULL, 10);
-        }
 
         mraa_init();
         fprintf(stdout, "MRAA Version: %s\nStarting Blinking on IO%d\n", mraa_get_version(), iopin);
@@ -138,7 +179,6 @@ Update **blinky-LED.c** with following changes
         return r;
     }
     ```
-
 ### Disable Node-Red service
 
 ** Please be sure to disable the Node-Red service running on your Gateway!**
@@ -154,42 +194,42 @@ Update **blinky-LED.c** with following changes
     `sudo systemctl status node-red-experience`
 
 ## Build and Run your LED blink program
+Click the check mark to compile/verify the program.
+![](./images/arduino-create-editor-verify.png)
 
-![](./images/image_arduino_led.png)
+Click the arrow to upload the sketch to the UP Squared board
+![](./images/arduino-create-editor-upload.png)
 
-Open a SSH terminal to your Intel® IoT Gateway and go to your **LEDBlink** folder. Type the following command to build your C application
+You should now see the LED blinking once a second. If the LED doesn’t appear to be blinking or is blinking very dimly turn the potentiometer counter-clockwise:
 
-`gcc blinky-LED.c -o blinky-LED -lmraa`
+![](./images/Grove-potential.png)
 
-To run the program give following command:
+You should see successful upload at the bottom of the screen.
+![](./images/arduino-create-editor-blink-success.png)
 
-`./blinky-LED`
-
-This should execute your program and you should see LED blinking on your Arduino 101* board.The LED is located near the center of the board as shown in the figure
+Click on the Monitor button to the left.
+![](./images/arduino-create-editor-blink-monitor.png)
+You should see on/off being sent back from the UP Squared
 
 ## Setup the temperature sensor and LCD screen
 
-### Plug in the Grove shield, temperature sensor and the LCD
-
+### Plug into the Grove shield, temperature sensor
 ![temperature sensor](./images/temperature-sensors.jpg)
 
-Connect the Temperature sensor (Analog) and LCD display (I<sup>2</sup>C) to your Arduino 101*. Write code in C and measure temperature in Celsius using upm library, convert it to Fahrenheit, then display it on the LCD.
+ Write code in C and measure temperature in Celsius using upm library, convert it to Fahrenheit, then display it on the LCD.
 
-1.  Install the Grove Base Shield onto the Arduino 101* Arduino expansion board.
-
-2.  Connect **Grove Temperature Sensor** to analog pin **A0** of the Grove Base Shield.
-
-3.  Connect **Grove LCD** display to one of the **I<sup>2</sup>C** pins.
+Connect **Grove Temperature Sensor** to analog pin **A0** of the Grove Base Shield.
 
 ## Create a temperature sensor project
+Click on the NEW SKETCH button
+![](./images/arduino-create-editor-upload.png)
 
-*   On your Intel® IoT Gateway under **labs/sensors** folder create another folder **temperature-sensor**
-
-*   In the labs/sensors/temperature-sensor folder create a **temperature.c** file
+Rename the sketch to temperature and delete the void setup() and void loop() functions like before to create and empty sketch.
+ ![](./images/arduino-create-editor-temp-blank.png)
 
 ## Write the Code to Read the Temperature Sensor.
 
-Update <span class="icon file">temperature.c</span> to read the temperature sensor on program start up and log it to the console.
+Update <span class="icon file">temperature</span> to read the temperature sensor on program start up and log it to the console.
 
 1.  Include the following headers in your C program
 
@@ -217,11 +257,11 @@ Update <span class="icon file">temperature.c</span> to read the temperature sens
     }
 	```
 
-3.  Make sure to initialize LCD and Temperature modules using the right library calls. Here 512 is the FIRMATA offset which means for I2C it is bus 0 and for temperature sensor it is pin A0.
+3.  Make sure to initialize LCD and Temperature modules using the right library calls. I2C it is bus 0 and for temperature sensor it is pin A0.
 
     ```c
-    jhd1313m1_context lcd = jhd1313m1_init(512, 0x3e, 0x62);
-    temperature_context temp = temperature_init(512);
+    jhd1313m1_context lcd = jhd1313m1_init(0, 0x3e, 0x62);
+    temperature_context temp = temperature_init(0);
     ```
 
 4.  Finally create a while loop that will continuously read the temperature value from sensor in celsius, convert it to fahrenheit and then display this on LCD by setting the cursor position and then writing the string. Also you can continuously change the LCD display color as done in the code.
@@ -248,7 +288,7 @@ Update <span class="icon file">temperature.c</span> to read the temperature sens
             shouldRun = false;
     }
 
-    int main(int argc, char **argv)
+    int main()
     {
         signal(SIGINT, sig_handler);
         int fahrenheit;
@@ -256,8 +296,8 @@ Update <span class="icon file">temperature.c</span> to read the temperature sens
         //! [Interesting]
         // initialize a JHD1313m1 on I2C bus 0, LCD address 0x3e, RGB
         // address 0x62
-        jhd1313m1_context lcd = jhd1313m1_init(512, 0x3e, 0x62);
-        temperature_context temp = temperature_init(512);
+        jhd1313m1_context lcd = jhd1313m1_init(0, 0x3e, 0x62);
+        temperature_context temp = temperature_init(0);
 
         if (!lcd)
         {
@@ -307,18 +347,11 @@ Update <span class="icon file">temperature.c</span> to read the temperature sens
         return 0;
 	}
     ```
-## Build and Run your program
+## Build and Upload your program
+Click on the arrow again to upload the sketch.
+![](./images/arduino-create-editor-upload-temp.png)
 
-Make sure your changes to <span class="icon file">temperature.c</span> have been saved and now from a ssh terminal go to the temperature-sensor folder and type following to build your C program:
-
-`gcc temperature.c -o lcd_temp_sensor -I/usr/include/upm -lupmc-temperature -lupmc-utilities -lmraa -lm -lupm-jhd1313m1 -lupmc-jhd1313m1 -lupm-lcm1602 -lupmc-lcm1602`
-
-Run your program with following command:
-
-`./lcd_temp_sensor`
-
-
-You should see the temperature value on your LCD in both celsius and Fahrenheit. To stop the program simply do a Ctrl+C
+You should see the temperature value on your LCD in both celsius and Fahrenheit.
 
 There are a number of additional examples available for reference as [how-to-code-samples](https://github.com/intel-iot-devkit/how-to-code-samples) on git hub
 
