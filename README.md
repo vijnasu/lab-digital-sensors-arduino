@@ -186,7 +186,7 @@ Update **blinky-LED** with following changes
     ```
 ### Disable Node-Red service
 
-** Please be sure to disable the Node-Red service running on your Gateway!**
+** If Node-Red is enabled on your Up2 Board then please be sure to disable the Node-Red service running on your Gateway!**
 
 *   The IP address that you see on the LCD screen is a Node-Red flow running on boot, since Node-Red uses the device resources through ttyACM0 node it is required to stop it before we run our C programs
 
