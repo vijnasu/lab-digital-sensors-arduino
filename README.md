@@ -219,9 +219,6 @@ You should see on/off being sent back from the UP Squared
 
 ## Setup the temperature sensor and LCD screen
 
-### Plug into the Grove shield, temperature sensor
-![temperature sensor](./images/temperature-sensors.jpg)
-
  Write code in C and measure temperature in Celsius using upm library, convert it to Fahrenheit, then display it on the LCD.
 
 Connect **Grove Temperature Sensor** to analog pin **A0** of the Grove Base Shield.
