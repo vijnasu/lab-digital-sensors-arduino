@@ -8,14 +8,9 @@ By the end of this module, you should be able to use the MRAA library to do the 
 * Use Digital GPIO input to read the state of a Grove Button.
 * Combine Digital GPIO input and output into a single program.
 
-
-## Digital Output: LED blink Project
+## Digital GPIO Output: LED blink Project
 
 ### Hardware Setup
-
-## Hardware requirements
-
-### Grove\*
 
 Sensor | Pin
 --- | ---
@@ -29,10 +24,119 @@ Find the LED module and plug in an LED. Make sure that the cathode is plugged in
 
 :arrow_forward: Plug in the module into the D3 socket on the sensor shield:
 
-
-### Digital GPIO Read Software - Read the State of a Button
+### Digital GPIO Write Software - Blink LED
 
 Programs in the Arduino Create environment can be build using the Arduino APIs or MRAA APIs.  In fact, the Arduino Create development team has implemented the Arduino APIs on top of the MRAA APIs. So when compiling a program written using the Arduino APIs on an Intel platform, you are actually using both sets of APIs.
+
+### Arduino Version of Blink LED
+```c
+//A 512 offset is required for sub-platforms.  515 corresponds to digital pin 3, or D3.
+#define SUBPLATFORM_OFFSET 512
+#define PIN SUBPLATFORM_OFFSET + 3
+
+// the setup function runs once when you start your sketch
+void setup() {
+  //add the Grove Pi+ sub-platform
+  mraa_add_subplatform(MRAA_GROVEPI, "0");
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(PIN, OUTPUT);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(PIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);               // wait for a second
+  digitalWrite(PIN, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);               // wait for a second
+}
+
+```
+
+### MRAA Version of Blink LED
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <signal.h>
+#include <stdlib.h>
+
+#include "mraa.h"
+
+#define PLATFORM_OFFSET 512
+#define DEFAULT_IOPIN 3 + PLATFORM_OFFSET
+
+int running = 0;
+static int iopin;
+
+void
+sig_handler(int signo)
+{
+    if (signo == SIGINT) {
+        printf("closing IO%d nicely\n", iopin);
+        running = -1;
+    }
+}
+
+int
+main()
+{
+    mraa_add_subplatform(MRAA_GROVEPI, "0");
+    mraa_result_t r = MRAA_SUCCESS;
+    iopin = DEFAULT_IOPIN;
+
+    mraa_init();
+    fprintf(stdout, "MRAA Version: %s\nStarting Blinking on IO%d\n", mraa_get_version(), iopin);
+
+    mraa_gpio_context gpio;
+    gpio = mraa_gpio_init(iopin);
+    if (gpio == NULL) {
+        fprintf(stderr, "Are you sure that pin%d you requested is valid on your platform?", iopin);
+        exit(1);
+    }
+    printf("Initialised pin%d\n", iopin);
+
+    // set direction to OUT
+    r = mraa_gpio_dir(gpio, MRAA_GPIO_OUT);
+    if (r != MRAA_SUCCESS) {
+        mraa_result_print(r);
+    }
+
+    signal(SIGINT, sig_handler);
+
+    while (running == 0) {
+        r = mraa_gpio_write(gpio, 0);
+        if (r != MRAA_SUCCESS) {
+            mraa_result_print(r);
+        } else {
+            printf("off\n");
+        }
+
+        sleep(1);
+
+        r = mraa_gpio_write(gpio, 1);
+        if (r != MRAA_SUCCESS) {
+            mraa_result_print(r);
+        } else {
+            printf("on\n");
+        }
+
+        sleep(1);
+    }
+
+    r = mraa_gpio_close(gpio);
+    if (r != MRAA_SUCCESS) {
+        mraa_result_print(r);
+    }
+
+    return r;
+}
+```
+
+### Digital GPIO Input - Read the State of a Button
+
+Programs in the Arduino Create environment can be build using the Arduino APIs or MRAA APIs.  In fact, the Arduino Create development team has implemented the Arduino APIs on top of the MRAA APIs. So when compiling a program written using the Arduino APIs on an Intel platform, you are actually using both sets of APIs.
+
 
 #### Using the Arduino APIs
 
