@@ -51,6 +51,13 @@ void loop() {
 }
 
 ```
+### Build and Run your Digital GPIO Read Program
+
+:arrow_forward: Build and run your program
+
+You should now see the LED blinking once a second. If the LED doesn’t appear to be blinking or is blinking very dimly turn the potentiometer counter-clockwise:
+
+![](./images/Grove-potential.png)
 
 ### MRAA Version of Blink LED
 
@@ -238,15 +245,6 @@ main(void)
     return r;
 }
 ```
-
-### Build and Run your Digital GPIO Read Program
-
-:arrow_forward: Build and run your program
-
-You should now see the LED blinking once a second. If the LED doesn’t appear to be blinking or is blinking very dimly turn the potentiometer counter-clockwise:
-
-![](./images/Grove-potential.png)
-
 
 ## Sensors and Actuators APIs - UPM API Doxygen Reference
 
