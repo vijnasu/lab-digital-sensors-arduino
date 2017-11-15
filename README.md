@@ -13,6 +13,14 @@ By the end of this module, you should be able to use the MRAA library to do the 
 
 ### Hardware Setup
 
+## Hardware requirements
+
+### Grove\*
+
+Sensor | Pin
+--- | ---
+Grove LED | D3
+
 :arrow_forward: Set up the LED for the Grove Shield.
 
 Find the LED module and plug in an LED. Make sure that the cathode is plugged into the negative (-) socket. You can tell the cathode of an LED by the flat side of the led case, or by the larger “anvil” inside the LED. Refer to the diagram below:
