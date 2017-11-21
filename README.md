@@ -94,12 +94,22 @@ main()
     iopin = DEFAULT_IOPIN;
 
     mraa_init();
-    fprintf(stdout, "MRAA Version: %s\nStarting Blinking on IO%d\n", mraa_get_version(), iopin);
+    
+    fprintf(
+      stdout, 
+      "MRAA Version: %s\nStarting Blinking on IO%d\n", 
+      mraa_get_version(), 
+      iopin
+    );
 
     mraa_gpio_context gpio;
     gpio = mraa_gpio_init(iopin);
     if (gpio == NULL) {
-        fprintf(stderr, "Are you sure that pin%d you requested is valid on your platform?", iopin);
+        fprintf(
+          stderr, 
+          "Are you sure that pin %d you requested is valid on your platform?", 
+          iopin
+        );
         exit(1);
     }
     printf("Initialised pin%d\n", iopin);
