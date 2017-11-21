@@ -30,7 +30,8 @@ Programs in the Arduino Create environment can be build using the Arduino APIs o
 
 ### Arduino Version of Blink LED
 ```c
-//A 512 offset is required for sub-platforms.  515 corresponds to digital pin 3, or D3.
+// A 512 offset is required for sub-platforms.
+// 515 corresponds to digital pin 3, or D3.
 #define SUBPLATFORM_OFFSET 512
 #define PIN SUBPLATFORM_OFFSET + 3
 
@@ -44,16 +45,16 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  digitalWrite(PIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  digitalWrite(PIN, HIGH);   // turn the LED on (HIGH)
   delay(1000);               // wait for a second
-  digitalWrite(PIN, LOW);    // turn the LED off by making the voltage LOW
+  digitalWrite(PIN, LOW);    // turn the LED off (LOW)
   delay(1000);               // wait for a second
 }
 
 ```
 ### Build and Run your Digital GPIO Read Program
 
-:arrow_forward: Build and run your program
+![](./images/action.png) Build and run your program
 
 You should now see the LED blinking once a second. If the LED doesn’t appear to be blinking or is blinking very dimly turn the potentiometer counter-clockwise:
 
@@ -147,7 +148,7 @@ Programs in the Arduino Create environment can be build using the Arduino APIs o
 
 #### Using the Arduino APIs
 
-:arrow_forward: Begin by creating a new project
+![](./images/action.png) Begin by creating a new project
 
 The one addition to this nearly standard Arduino code is the **mraa_add_subplatform** call, which declares which shield is being used.
 
@@ -177,9 +178,9 @@ void loop() {
 
 #### Using the MRAA APIs
 
-:arrow_forward: Begin by creating a new project
+![](./images/action.png) Begin by creating a new project
 
-:arrow_forward: In the main C file, add these header files.
+![](./images/action.png) In the main C file, add these header files.
 
 ```c
 #include "stdio.h"
@@ -220,7 +221,11 @@ main(void)
     mraa_result_t r = MRAA_SUCCESS;
 
     mraa_init();
-    fprintf(stdout, "MRAA Version: %s\nStarting Read on D3 (Ctrl+C to exit)\n", mraa_get_version());
+    fprintf(
+      stdout, 
+      "MRAA Version: %s\nStarting Read on D3 (Ctrl+C to exit)\n", 
+      mraa_get_version()
+    );
 
     //! [Interesting]
     mraa_gpio_context gpio;
@@ -232,7 +237,11 @@ main(void)
     signal(SIGINT, sig_handler);
 
     while (running == 0) {
-        fprintf(stdout, "Gpio is %d\n", mraa_gpio_read(gpio));
+        fprintf(
+          stdout, 
+          "Gpio is %d\n", 
+          mraa_gpio_read(gpio)
+        );
         sleep(1);
     }
 
