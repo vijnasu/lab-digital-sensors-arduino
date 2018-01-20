@@ -301,7 +301,6 @@ main()
 }
 ```
 
-```
 ## Sensors and Actuators APIs - UPM API Doxygen Reference
 
 * [C++ Sensor/Actuator API libmraa (v1.5.1) and UPM (v1.0.2)](https://iotdk.intel.com/docs/master/upm/)
@@ -320,4 +319,7 @@ main()
 
 * [UPM JavaScript example: Grove Button](https://github.com/intel-iot-devkit/upm/blob/master/examples/javascript/grovebutton.js)
 * [Seeed Studio Wiki: Grove Button](http://www.seeedstudio.com/wiki/Grove_-_Button)
+
+```
+
 ```
