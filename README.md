@@ -1,11 +1,6 @@
 # Introduction to Digital GPIO
 
-The lab guides you through the creation of programs.
-
-1. A digital input GPIO program using the Arduino APIs.
-2. A digital output GPIO program using the Arduino APIs.
-3. A digital input GPIO program using the MRAA APIs.
-4. A digital output GPIO program using the MRAA APIs.
+The lab guides you through the creation of four programs using combinations of input and output and the Arduino and MRAA APIs.
 
 | I/O            | API         |
 | -------------- | ----------- |
