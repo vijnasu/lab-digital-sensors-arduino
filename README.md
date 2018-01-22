@@ -7,6 +7,13 @@ The lab guides you through the creation of programs.
 3. A digital input GPIO program using the MRAA APIs.
 4. A digital output GPIO program using the MRAA APIs.
 
+| I/O            | API         |
+| -------------- | ----------- |
+| Digital Input  | Arduino API |
+| Digital Output | Arduino API |
+| Digital Input  | MRAA API    |
+| Digital Output | MRAA API    |
+
 ## MRAA API vs. Arduino API
 
 Both the MRAA and Arduino APIs are available in the Arduino Create environment and you can choose which to use, but why are there two APIs to program sensors and actuators? To answer this let's list of the pros and cons of using each set of APIs?
@@ -24,9 +31,11 @@ Lastly, when you are using the Arduino Create environment with an Intel IoT boar
 | Grove Button | D4  |
 
 The Grove button
+
 ![](./images/button.jpg)
 
 Look for port D4 and connect the buttonState
+
 ![](./images/D4.png)
 
 ### Software
@@ -300,6 +309,12 @@ main()
     return r;
 }
 ```
+
+### Run the Program in the Arduino Create environment
+
+Now run the [final program](https://create.arduino.cc/editor/danielholmlund/a9d2daf7-5a7d-4bad-8f06-de9afd9acfd5/preview) in the Arduino Create environment.
+
+https://create.arduino.cc/editor/danielholmlund/a9d2daf7-5a7d-4bad-8f06-de9afd9acfd5/preview
 
 ## Sensors and Actuators APIs - UPM API Doxygen Reference
 
