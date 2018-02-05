@@ -144,7 +144,7 @@ Start the beginning of the program by defining the header files.
 Now just like the Arduino program, use a #define to create a constant to hold the pin number.
 
 ```c
-// LED should be on pin D4
+// Button should be on pin D4
 #define PLATFORM_OFFSET 512
 #define PIN 4 + PLATFORM_OFFSET
 ```
@@ -209,7 +209,7 @@ main(void)
 
 Build and run your program.
 
-You should be able to go the serial monitor and view the values sampled from the rotary angle sensor.
+You should be able to go the serial monitor and view the values sampled from the button sensor.
 
 ![](./images/Grove-potential.png)
 
